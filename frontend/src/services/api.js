@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api', // Should use environment variable in production
+    baseURL: 'https://task-managment-h2fy.vercel.app', // Should use environment variable in production
 });
 
 api.interceptors.request.use((config) => {
