@@ -49,8 +49,30 @@ const markAllAsRead = async (req, res, next) => {
   }
 };
 
+const deleteNotification = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.status(400);
+      throw new Error('Invalid notification id');
+    }
+
+    const notification = await Notification.findOneAndDelete({ _id: id, userId: req.user.id });
+
+    if (!notification) {
+      res.status(404);
+      throw new Error('Notification not found');
+    }
+
+    res.json({ success: true, message: 'Notification deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getNotifications,
   markAsRead,
   markAllAsRead,
+  deleteNotification,
 };

@@ -474,6 +474,28 @@
   flex-shrink: 0;
 }
 
+.notification-item-delete {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  padding: 0 0 0 0.5rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.notification-item:hover .notification-item-delete {
+  opacity: 1;
+}
+
+.notification-item-delete:hover {
+  color: var(--danger);
+}
+
 /* Sidebar scrollable nav area */
 .sidebar-nav-scroll {
   flex: 1;

@@ -3,6 +3,7 @@ import {
   getNotifications,
   markNotificationRead,
   markAllNotificationsRead,
+  deleteNotification,
 } from '../../services/notificationService';
 
 const formatRelativeTime = (value) => {
@@ -94,6 +95,16 @@ const NotificationBell = () => {
     }
   };
 
+  const handleDelete = async (e, id) => {
+    e.stopPropagation(); // Prevent triggering the read action
+    try {
+      await deleteNotification(id);
+      setItems((prev) => prev.filter((n) => n.Id !== id));
+    } catch (error) {
+      console.error('Failed to delete notification', error);
+    }
+  };
+
   return (
     <div className="notification-wrap" ref={panelRef}>
       <button
@@ -155,6 +166,14 @@ const NotificationBell = () => {
                     <p>{item.Message}</p>
                   </div>
                   {!item.IsRead && <span className="notification-dot" />}
+                  <button
+                    className="notification-item-delete"
+                    onClick={(e) => handleDelete(e, item.Id)}
+                    title="Delete notification"
+                    aria-label="Delete notification"
+                  >
+                    <i className="bi bi-x"></i>
+                  </button>
                 </button>
               ))
             )}

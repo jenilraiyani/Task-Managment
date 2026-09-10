@@ -14,3 +14,8 @@ export const markAllNotificationsRead = async () => {
   const response = await api.patch('/notifications/read-all');
   return response.data;
 };
+
+export const deleteNotification = async (id) => {
+  const response = await api.delete(`/notifications/${id}`);
+  return response.data;
+};
