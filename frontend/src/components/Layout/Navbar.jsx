@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NotificationBell from './NotificationBell';
 import { useSearch } from '../../context/SearchContext';
@@ -9,6 +10,7 @@ const titles = {
   upcoming: 'Upcoming',
   completed: 'Completed',
   overdue: 'Overdue',
+  'add-task': 'New Task',
 };
 
 const Navbar = ({ toggleSidebar }) => {
@@ -17,6 +19,7 @@ const Navbar = ({ toggleSidebar }) => {
   const { query, setQuery } = useSearch();
   const path = location.pathname.substring(1) || 'dashboard';
   const title = titles[path] || path.charAt(0).toUpperCase() + path.slice(1);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
   const handleSearchChange = (e) => {
     setQuery(e.target.value);
@@ -35,6 +38,10 @@ const Navbar = ({ toggleSidebar }) => {
     }
   };
 
+  const closeMobileSearch = () => {
+    setMobileSearchOpen(false);
+  };
+
   return (
     <header className="top-navbar">
       <div className="d-flex align-items-center gap-3">
@@ -45,7 +52,8 @@ const Navbar = ({ toggleSidebar }) => {
       </div>
 
       <div className="navbar-right">
-        <div className="search-box">
+        {/* Desktop search - always visible */}
+        <div className="search-box search-desktop">
           <i className="bi bi-search"></i>
           <input
             type="search"
@@ -67,8 +75,45 @@ const Navbar = ({ toggleSidebar }) => {
             </button>
           )}
         </div>
+
+        {/* Mobile search icon button */}
+        <button
+          className="mobile-search-toggle"
+          onClick={() => setMobileSearchOpen(true)}
+          aria-label="Open search"
+        >
+          <i className="bi bi-search"></i>
+        </button>
+
         <NotificationBell />
       </div>
+
+      {/* Mobile search overlay */}
+      {mobileSearchOpen && (
+        <div className="mobile-search-overlay">
+          <div className="mobile-search-bar">
+            <i className="bi bi-search"></i>
+            <input
+              type="search"
+              placeholder="Search tasks..."
+              value={query}
+              onChange={handleSearchChange}
+              onFocus={handleSearchFocusOrSubmit}
+              onKeyDown={handleSearchKeyDown}
+              autoFocus
+              aria-label="Global search tasks"
+            />
+            <button
+              type="button"
+              className="mobile-search-close"
+              onClick={closeMobileSearch}
+              aria-label="Close search"
+            >
+              <i className="bi bi-x-lg"></i>
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

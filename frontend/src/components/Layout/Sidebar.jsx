@@ -33,20 +33,22 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </div>
       </div>
 
-      <div className="sidebar-section-title">Workspace</div>
-      <nav className="nav flex-column">
-        {links.map((link) => (
-          <div className="nav-item" key={link.to}>
-            <NavLink
-              to={link.to}
-              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-              onClick={toggleSidebar}
-            >
-              <i className={`bi ${link.icon}`}></i> {link.label}
-            </NavLink>
-          </div>
-        ))}
-      </nav>
+      <div className="sidebar-nav-scroll">
+        <div className="sidebar-section-title">Workspace</div>
+        <nav className="nav flex-column">
+          {links.map((link) => (
+            <div className="nav-item" key={link.to}>
+              <NavLink
+                to={link.to}
+                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                onClick={toggleSidebar}
+              >
+                <i className={`bi ${link.icon}`}></i> {link.label}
+              </NavLink>
+            </div>
+          ))}
+        </nav>
+      </div>
 
       <div className="user-profile">
         <div className="avatar">

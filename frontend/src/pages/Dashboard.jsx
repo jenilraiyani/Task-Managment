@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { AuthContext } from '../context/AuthContext';
@@ -11,6 +11,7 @@ ChartJS.register(ArcElement, Tooltip);
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -86,7 +87,13 @@ const Dashboard = () => {
           </h2>
           <p className="text-muted mb-0">Here is how your day is shaping up.</p>
         </div>
-        <button type="button" className="btn btn-warm" onClick={() => setShowModal(true)}>
+        <button type="button" className="btn btn-warm" onClick={() => {
+          if (window.innerWidth <= 768) {
+            navigate('/add-task', { state: { returnTo: '/dashboard' } });
+          } else {
+            setShowModal(true);
+          }
+        }}>
           <i className="bi bi-plus-lg me-2"></i>Add Task
         </button>
       </div>

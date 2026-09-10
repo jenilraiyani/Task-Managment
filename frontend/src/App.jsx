@@ -10,6 +10,7 @@ import Today from './pages/Today';
 import Upcoming from './pages/Upcoming';
 import Completed from './pages/Completed';
 import Overdue from './pages/Overdue';
+import AddTask from './pages/AddTask';
 import Layout from './components/Layout/Layout';
 
 const BootLoader = () => (
@@ -49,6 +50,7 @@ function App() {
           <Route path="upcoming" element={<Upcoming />} />
           <Route path="completed" element={<Completed />} />
           <Route path="overdue" element={<Overdue />} />
+          <Route path="add-task" element={<AddTask />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

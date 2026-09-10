@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import TaskCard from './TaskCard';
 import TaskModal from './TaskModal';
 import EmptyState from '../UI/EmptyState';
@@ -22,6 +23,8 @@ const TaskListView = ({
   showFilters = false,
 }) => {
   const { query } = useSearch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [priorityFilter, setPriorityFilter] = useState('All');
   const [showModal, setShowModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -40,13 +43,21 @@ const TaskListView = ({
   }, [tasks, query, priorityFilter]);
 
   const openAdd = () => {
-    setSelectedTask(null);
-    setShowModal(true);
+    if (window.innerWidth <= 768) {
+      navigate('/add-task', { state: { returnTo: location.pathname } });
+    } else {
+      setSelectedTask(null);
+      setShowModal(true);
+    }
   };
 
   const openEdit = (task) => {
-    setSelectedTask(task);
-    setShowModal(true);
+    if (window.innerWidth <= 768) {
+      navigate('/add-task', { state: { task, returnTo: location.pathname } });
+    } else {
+      setSelectedTask(task);
+      setShowModal(true);
+    }
   };
 
   return (
