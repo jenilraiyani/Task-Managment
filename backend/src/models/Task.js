@@ -14,6 +14,7 @@ const taskSchema = new mongoose.Schema(
     reminderMinutes: { type: Number, default: null },
     recurrence: { type: String, default: 'One-time' },
     reminderAt: { type: Date, default: null },
+    customDays: { type: String, default: null },
     priorityScore: { type: Number, default: null },
     deadlineScore: { type: Number, default: null },
     totalScore: { type: Number, default: null },

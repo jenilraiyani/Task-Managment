@@ -52,6 +52,7 @@ const createTask = async (req, res, next) => {
       reminderMinutes,
       recurrence,
       reminderAt,
+      customDays,
     } = req.body;
 
     if (!title || !priority) {
@@ -97,6 +98,7 @@ const createTask = async (req, res, next) => {
       reminderMinutes: reminderMinutes || null,
       recurrence: taskRecurrence,
       reminderAt: parsedReminderAt,
+      customDays: taskRecurrence === 'Custom' ? (customDays || null) : null,
       priorityScore,
       deadlineScore,
       totalScore,
@@ -157,6 +159,7 @@ const updateTask = async (req, res, next) => {
       ? normalizeRecurrence(req.body.recurrence)
       : (existingTask.recurrence || 'One-time');
     const reminderAt = req.body.reminderAt !== undefined ? req.body.reminderAt : existingTask.reminderAt;
+    const customDays = req.body.customDays !== undefined ? req.body.customDays : existingTask.customDays;
 
     const parsedDeadline = parseOptionalDate(deadline);
     const parsedStartDate = parseOptionalDate(startDate);
@@ -186,6 +189,7 @@ const updateTask = async (req, res, next) => {
     existingTask.reminderMinutes = reminderMinutes;
     existingTask.recurrence = recurrence;
     existingTask.reminderAt = parsedReminderAt;
+    existingTask.customDays = recurrence === 'Custom' ? (customDays || null) : null;
     existingTask.priorityScore = priorityScore;
     existingTask.deadlineScore = deadlineScore;
     existingTask.totalScore = totalScore;

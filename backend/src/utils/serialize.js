@@ -37,6 +37,7 @@ const serializeTask = (doc) => {
     ReminderMinutes: t.reminderMinutes ?? null,
     Recurrence: t.recurrence || 'One-time',
     ReminderAt: t.reminderAt ?? null,
+    CustomDays: t.customDays ?? null,
     PriorityScore: t.priorityScore ?? null,
     DeadlineScore: t.deadlineScore ?? null,
     TotalScore: t.totalScore ?? null,

@@ -117,7 +117,7 @@ const TaskDetailModal = ({ show, task, onClose, onEdit, onDelete }) => {
 
                 {task.Recurrence === 'Custom' && (
                   <>
-                    <DetailRow icon="bi-calendar3" label="Selected day" value={formatDateTime(task.ReminderAt || task.Deadline).replace(/,\s*\d{1,2}:\d{2}.*/, '') || '—'} />
+                    <DetailRow icon="bi-calendar3" label="Selected day" value={task.CustomDays || formatDateTime(task.ReminderAt || task.Deadline).replace(/,\s*\d{1,2}:\d{2}.*/, '') || '—'} />
                     <DetailRow icon="bi-bell" label="Reminder time" value={formatTime(task.ReminderAt || task.Deadline)} />
                   </>
                 )}

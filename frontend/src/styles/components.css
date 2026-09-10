@@ -575,6 +575,53 @@
   border: 1px solid rgba(15, 122, 108, 0.2);
 }
 
+/* ---- DAY OF WEEK PICKER ---- */
+.day-picker-toggle {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.day-picker-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-color);
+  background: #fff;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.day-picker-btn:hover {
+  border-color: rgba(15, 122, 108, 0.4);
+  color: var(--primary-color);
+  background: rgba(15, 122, 108, 0.04);
+}
+
+.day-picker-btn.active {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #fff;
+  box-shadow: 0 4px 14px var(--primary-glow);
+  transform: scale(1.08);
+}
+
+@media (max-width: 576px) {
+  .day-picker-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.78rem;
+  }
+}
+
 @media (max-width: 576px) {
   .priority-toggle {
     grid-template-columns: repeat(2, 1fr);
