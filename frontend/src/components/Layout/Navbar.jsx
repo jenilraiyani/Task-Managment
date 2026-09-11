@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NotificationBell from './NotificationBell';
 import { useSearch } from '../../context/SearchContext';
@@ -20,6 +20,26 @@ const Navbar = ({ toggleSidebar }) => {
   const path = location.pathname.substring(1) || 'dashboard';
   const title = titles[path] || path.charAt(0).toUpperCase() + path.slice(1);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  
+  // Theme toggle state
+  const [isDark, setIsDark] = useState(() => {
+    return localStorage.getItem('theme') === 'dark';
+  });
+
+  // Apply theme on mount and when changed
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDark]);
+
+  const toggleTheme = () => {
+    setIsDark(prev => !prev);
+  };
 
   const handleSearchChange = (e) => {
     setQuery(e.target.value);
@@ -83,6 +103,30 @@ const Navbar = ({ toggleSidebar }) => {
           aria-label="Open search"
         >
           <i className="bi bi-search"></i>
+        </button>
+
+        {/* Theme toggle switch */}
+        <button
+          type="button"
+          className="btn btn-link nav-icon-btn me-1"
+          onClick={toggleTheme}
+          aria-label="Toggle dark theme"
+          style={{
+            background: 'var(--bg-soft)',
+            border: 'none',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--text-main)',
+            fontSize: '1.2rem',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+          }}
+        >
+          {isDark ? <i className="bi bi-moon-stars-fill text-warning"></i> : <i className="bi bi-sun-fill text-warning"></i>}
         </button>
 
         <NotificationBell />
