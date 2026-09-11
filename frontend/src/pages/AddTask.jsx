@@ -50,32 +50,43 @@ const buildReminderFromTime = (timeStr) => {
 
 const DAY_INDEX_MAP = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
 
-const getNextOccurrence = (dayAbbrev, timeStr) => {
-  if (!dayAbbrev || !timeStr) return null;
-  const targetDay = DAY_INDEX_MAP[dayAbbrev];
-  if (targetDay === undefined) return null;
+const getNextOccurrence = (dayAbbrevs, timeStr) => {
+  if (!dayAbbrevs || !dayAbbrevs.length || !timeStr) return null;
   const [hours, minutes] = timeStr.split(':').map(Number);
   const now = new Date();
   const today = now.getDay();
-  let daysAhead = targetDay - today;
-  if (daysAhead < 0) daysAhead += 7;
-  if (daysAhead === 0) {
-    const check = new Date();
-    check.setHours(hours, minutes, 0, 0);
-    if (check.getTime() <= now.getTime()) daysAhead = 7;
+  
+  let minDaysAhead = 7;
+  
+  for (const dayAbbrev of dayAbbrevs) {
+    const targetDay = DAY_INDEX_MAP[dayAbbrev];
+    if (targetDay === undefined) continue;
+    
+    let daysAhead = targetDay - today;
+    if (daysAhead < 0) daysAhead += 7;
+    if (daysAhead === 0) {
+      const check = new Date();
+      check.setHours(hours, minutes, 0, 0);
+      if (check.getTime() <= now.getTime()) daysAhead = 7;
+    }
+    if (daysAhead < minDaysAhead) {
+      minDaysAhead = daysAhead;
+    }
   }
+  
   const result = new Date();
-  result.setDate(result.getDate() + daysAhead);
+  result.setDate(result.getDate() + minDaysAhead);
   result.setHours(hours, minutes, 0, 0);
   return result.toISOString();
 };
 
-const getDayFromCustomDays = (task) => {
-  if (task?.customDays) return task.customDays;
-  if (!task?.ReminderAt && !task?.Deadline) return '';
+const getDaysFromCustomDays = (task) => {
+  const daysStr = task?.customDays || task?.CustomDays;
+  if (daysStr) return daysStr.split(',');
+  if (!task?.ReminderAt && !task?.Deadline) return [];
   const date = new Date(task.ReminderAt || task.Deadline);
-  if (Number.isNaN(date.getTime())) return '';
-  return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()];
+  if (Number.isNaN(date.getTime())) return [];
+  return [['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()]];
 };
 
 const AddTask = () => {
@@ -92,7 +103,7 @@ const AddTask = () => {
   const [reminderTime, setReminderTime] = useState('');
   const [customDay, setCustomDay] = useState('');
   const [customTime, setCustomTime] = useState('');
-  const [selectedWeekday, setSelectedWeekday] = useState('');
+  const [selectedWeekdays, setSelectedWeekdays] = useState([]);
   const [priority, setPriority] = useState('Medium');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -109,7 +120,7 @@ const AddTask = () => {
     setReminderTime(toLocalTimeValue(task?.ReminderAt));
     setCustomDay('');
     setCustomTime(toLocalTimeValue(reminderSource));
-    setSelectedWeekday(getDayFromCustomDays(task));
+    setSelectedWeekdays(getDaysFromCustomDays(task));
     setPriority(task?.Priority || 'Medium');
     setError('');
   }, [task]);
@@ -137,12 +148,12 @@ const AddTask = () => {
       }
       finalReminderAt = buildReminderFromTime(reminderTime);
     } else {
-      if (!selectedWeekday || !customTime) {
-        setError('Please select a day and reminder time');
+      if (selectedWeekdays.length === 0 || !customTime) {
+        setError('Please select at least one day and reminder time');
         setLoading(false);
         return;
       }
-      finalReminderAt = getNextOccurrence(selectedWeekday, customTime);
+      finalReminderAt = getNextOccurrence(selectedWeekdays, customTime);
       finalDeadline = finalReminderAt;
       if (!finalReminderAt) {
         setError('Invalid day or reminder time');
@@ -159,7 +170,7 @@ const AddTask = () => {
       priority,
       deadline: finalDeadline,
       reminderAt: finalReminderAt,
-      customDays: recurrence === 'Custom' ? selectedWeekday : null,
+      customDays: recurrence === 'Custom' ? selectedWeekdays.join(',') : null,
     };
 
     try {
@@ -261,31 +272,42 @@ const AddTask = () => {
         )}
 
         {recurrence === 'Custom' && (
-          <div className="mb-3">
-            <label className="form-label">Repeat on *</label>
-            <div className="day-picker-toggle" role="group" aria-label="Day of week">
+          <div className="mb-3 custom-recurrence-card">
+            <label className="form-label d-block text-center mb-3">Repeats every</label>
+            <div className="day-picker-container mb-4">
               {DAYS_OF_WEEK.map((day) => (
-                <button
-                  key={day.value}
-                  type="button"
-                  className={`day-picker-btn ${selectedWeekday === day.value ? 'active' : ''}`}
-                  onClick={() => setSelectedWeekday(day.value)}
-                  title={day.full}
-                >
-                  {day.label}
-                </button>
+                <div key={day.value} className="day-picker-wrapper">
+                  <input
+                    type="checkbox"
+                    id={`day-${day.value}`}
+                    name="customDay"
+                    value={day.value}
+                    className="day-picker-toggle"
+                    checked={selectedWeekdays.includes(day.value)}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      setSelectedWeekdays(prev => 
+                        checked ? [...prev, day.value] : prev.filter(d => d !== day.value)
+                      );
+                    }}
+                  />
+                  <label htmlFor={`day-${day.value}`} className="day-picker-btn" title={day.full}>
+                    {day.label}
+                  </label>
+                </div>
               ))}
             </div>
-            {selectedWeekday && (
-              <p className="form-hint" style={{ marginTop: '0.5rem' }}>
-                Repeats every <strong>{DAYS_OF_WEEK.find(d => d.value === selectedWeekday)?.full}</strong>
+            {selectedWeekdays.length > 0 && (
+              <p className="text-center text-primary fw-medium mb-3">
+                <i className="bi bi-arrow-repeat me-1"></i>
+                Repeats every {selectedWeekdays.map(d => DAYS_OF_WEEK.find(day => day.value === d)?.full).join(', ')}
               </p>
             )}
-
-            <label className="form-label" style={{ marginTop: '0.75rem' }}>Reminder time *</label>
+            <label className="form-label text-center d-block">Reminder time *</label>
             <input
               type="time"
-              className="form-control"
+              className="form-control text-center mx-auto"
+              style={{ maxWidth: '150px' }}
               value={customTime}
               onChange={(e) => setCustomTime(e.target.value)}
               required

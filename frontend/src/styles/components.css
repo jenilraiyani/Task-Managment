@@ -606,7 +606,12 @@
   background: rgba(15, 122, 108, 0.04);
 }
 
-.day-picker-btn.active {
+.day-picker-toggle {
+  display: none;
+}
+
+.day-picker-btn.active,
+.day-picker-toggle:checked + .day-picker-btn {
   background: var(--primary-color);
   border-color: var(--primary-color);
   color: #fff;
