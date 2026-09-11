@@ -576,7 +576,7 @@
 }
 
 /* ---- DAY OF WEEK PICKER ---- */
-.day-picker-toggle {
+.day-picker-container {
   display: flex;
   gap: 0.5rem;
   justify-content: space-between;
