@@ -8,6 +8,16 @@ const RECURRENCE_OPTIONS = [
   { value: 'Custom', label: 'Custom' },
 ];
 
+const DAYS_OF_WEEK = [
+  { value: 'Sun', label: 'S', full: 'Sunday' },
+  { value: 'Mon', label: 'M', full: 'Monday' },
+  { value: 'Tue', label: 'T', full: 'Tuesday' },
+  { value: 'Wed', label: 'W', full: 'Wednesday' },
+  { value: 'Thu', label: 'T', full: 'Thursday' },
+  { value: 'Fri', label: 'F', full: 'Friday' },
+  { value: 'Sat', label: 'S', full: 'Saturday' },
+];
+
 const PRIORITY_OPTIONS = ['Critical', 'High', 'Medium', 'Low'];
 
 const toLocalDateTimeValue = (value) => {
@@ -57,6 +67,37 @@ const buildFromDayAndTime = (dayStr, timeStr) => {
   return date.toISOString();
 };
 
+const DAY_INDEX_MAP = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+const getNextOccurrence = (dayAbbrev, timeStr) => {
+  if (!dayAbbrev || !timeStr) return null;
+  const targetDay = DAY_INDEX_MAP[dayAbbrev];
+  if (targetDay === undefined) return null;
+  const [hours, minutes] = timeStr.split(':').map(Number);
+  const now = new Date();
+  const today = now.getDay();
+  let daysAhead = targetDay - today;
+  if (daysAhead < 0) daysAhead += 7;
+  if (daysAhead === 0) {
+    const check = new Date();
+    check.setHours(hours, minutes, 0, 0);
+    if (check.getTime() <= now.getTime()) daysAhead = 7;
+  }
+  const result = new Date();
+  result.setDate(result.getDate() + daysAhead);
+  result.setHours(hours, minutes, 0, 0);
+  return result.toISOString();
+};
+
+const getDayFromCustomDays = (task) => {
+  if (task?.customDays) return task.customDays;
+  if (task?.CustomDays) return task.CustomDays;
+  if (!task?.ReminderAt && !task?.Deadline) return '';
+  const date = new Date(task.ReminderAt || task.Deadline);
+  if (Number.isNaN(date.getTime())) return '';
+  return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()];
+};
+
 const TaskModal = ({ show, handleClose, task, onTaskSaved }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -64,7 +105,7 @@ const TaskModal = ({ show, handleClose, task, onTaskSaved }) => {
   const [recurrence, setRecurrence] = useState('One-time');
   const [deadline, setDeadline] = useState('');
   const [reminderTime, setReminderTime] = useState('');
-  const [customDay, setCustomDay] = useState('');
+  const [selectedWeekday, setSelectedWeekday] = useState('');
   const [customTime, setCustomTime] = useState('');
   const [priority, setPriority] = useState('Medium');
   const [loading, setLoading] = useState(false);
@@ -80,7 +121,7 @@ const TaskModal = ({ show, handleClose, task, onTaskSaved }) => {
     setRecurrence(existingRecurrence);
     setDeadline(toLocalDateTimeValue(task?.Deadline));
     setReminderTime(toLocalTimeValue(task?.ReminderAt));
-    setCustomDay(toLocalDateValue(reminderSource));
+    setSelectedWeekday(getDayFromCustomDays(task));
     setCustomTime(toLocalTimeValue(reminderSource));
     setPriority(task?.Priority || 'Medium');
     setError('');
@@ -122,12 +163,12 @@ const TaskModal = ({ show, handleClose, task, onTaskSaved }) => {
       }
       finalReminderAt = buildReminderFromTime(reminderTime);
     } else {
-      if (!customDay || !customTime) {
+      if (!selectedWeekday || !customTime) {
         setError('Please select a day and reminder time');
         setLoading(false);
         return;
       }
-      finalReminderAt = buildFromDayAndTime(customDay, customTime);
+      finalReminderAt = getNextOccurrence(selectedWeekday, customTime);
       finalDeadline = finalReminderAt;
       if (!finalReminderAt) {
         setError('Invalid day or reminder time');
@@ -144,6 +185,7 @@ const TaskModal = ({ show, handleClose, task, onTaskSaved }) => {
       priority,
       deadline: finalDeadline,
       reminderAt: finalReminderAt,
+      customDays: recurrence === 'Custom' ? selectedWeekday : null,
     };
 
     try {
@@ -181,7 +223,7 @@ const TaskModal = ({ show, handleClose, task, onTaskSaved }) => {
               </h5>
               <button type="button" className="btn-close" onClick={handleClose} aria-label="Close" />
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="d-flex flex-column" style={{ flex: 1, minHeight: 0 }}>
               <div className="modal-body">
                 {error && <div className="alert alert-danger">{error}</div>}
 
@@ -265,27 +307,41 @@ const TaskModal = ({ show, handleClose, task, onTaskSaved }) => {
                 )}
 
                 {recurrence === 'Custom' && (
-                  <div className="row mb-3 g-3">
-                    <div className="col-md-6">
-                      <label className="form-label">Select day *</label>
-                      <input
-                        type="date"
-                        className="form-control"
-                        value={customDay}
-                        onChange={(e) => setCustomDay(e.target.value)}
-                        required
-                      />
+                  <div className="mb-3 custom-recurrence-card">
+                    <label className="form-label d-block text-center mb-3">Repeats every</label>
+                    <div className="day-picker-container mb-4">
+                      {DAYS_OF_WEEK.map((day) => (
+                        <div key={day.value} className="day-picker-wrapper">
+                          <input
+                            type="radio"
+                            id={`day-${day.value}`}
+                            name="customDay"
+                            value={day.value}
+                            className="day-picker-toggle"
+                            checked={selectedWeekday === day.value}
+                            onChange={(e) => setSelectedWeekday(e.target.value)}
+                          />
+                          <label htmlFor={`day-${day.value}`} className="day-picker-btn" title={day.full}>
+                            {day.label}
+                          </label>
+                        </div>
+                      ))}
                     </div>
-                    <div className="col-md-6">
-                      <label className="form-label">Reminder time *</label>
-                      <input
-                        type="time"
-                        className="form-control"
-                        value={customTime}
-                        onChange={(e) => setCustomTime(e.target.value)}
-                        required
-                      />
-                    </div>
+                    {selectedWeekday && (
+                      <p className="text-center text-primary fw-medium mb-3">
+                        <i className="bi bi-arrow-repeat me-1"></i>
+                        Repeats every {DAYS_OF_WEEK.find(d => d.value === selectedWeekday)?.full}
+                      </p>
+                    )}
+                    <label className="form-label text-center d-block">Reminder time *</label>
+                    <input
+                      type="time"
+                      className="form-control text-center mx-auto"
+                      style={{ maxWidth: '150px' }}
+                      value={customTime}
+                      onChange={(e) => setCustomTime(e.target.value)}
+                      required
+                    />
                   </div>
                 )}
 
