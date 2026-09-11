@@ -25,10 +25,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
       <div className="sidebar-header">
         <div className="brand-mark" style={{ background: 'transparent', padding: 0 }}>
-          <img src="/logo.png" alt="TaskFlow Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+          <img src="/logo.png" alt="Taskora Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
         <div>
-          <h3>TaskFlow</h3>
+          <h3>Taskora</h3>
           <span className="brand-sub">Priority studio</span>
         </div>
       </div>

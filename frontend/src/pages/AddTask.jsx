@@ -98,7 +98,7 @@ const AddTask = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    document.title = task ? 'Edit Task · TaskFlow' : 'New Task · TaskFlow';
+    document.title = task ? 'Edit Task · Taskora' : 'New Task · Taskora';
     const existingRecurrence = task?.Recurrence || 'One-time';
     const reminderSource = task?.ReminderAt || task?.Deadline;
     setTitle(task?.Title || '');

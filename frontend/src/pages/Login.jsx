@@ -14,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'Sign in · TaskFlow';
+    document.title = 'Sign in · Taskora';
   }, []);
 
   const handleSubmit = async (e) => {
@@ -39,7 +39,7 @@ const Login = () => {
         <div className="auth-orb auth-orb-2" />
         <div className="auth-visual-brand">
           <div className="mark"><i className="bi bi-check2-square"></i></div>
-          <strong>TaskFlow</strong>
+          <strong>Taskora</strong>
         </div>
         <div className="auth-visual-copy">
           <h1>Clarity for every deadline.</h1>
@@ -56,7 +56,7 @@ const Login = () => {
         <div className="auth-card">
           <div className="auth-mobile-brand">
             <div className="mark"><i className="bi bi-check2-square"></i></div>
-            <strong>TaskFlow</strong>
+            <strong>Taskora</strong>
           </div>
           <h2>Welcome back</h2>
           <p className="auth-lead">Sign in to continue to your workspace.</p>

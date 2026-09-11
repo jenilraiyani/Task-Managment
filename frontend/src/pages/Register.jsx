@@ -15,7 +15,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'Create account · TaskFlow';
+    document.title = 'Create account · Taskora';
   }, []);
 
   const handleSubmit = async (e) => {
@@ -40,11 +40,11 @@ const Register = () => {
         <div className="auth-orb auth-orb-2" />
         <div className="auth-visual-brand">
           <div className="mark"><i className="bi bi-check2-square"></i></div>
-          <strong>TaskFlow</strong>
+          <strong>Taskora</strong>
         </div>
         <div className="auth-visual-copy">
           <h1>Start with calm focus.</h1>
-          <p>Create your TaskFlow account and keep priorities, deadlines, and progress in one place.</p>
+          <p>Create your Taskora account and keep priorities, deadlines, and progress in one place.</p>
         </div>
         <div className="auth-visual-meta">
           <div><strong>Free</strong>To get started</div>
@@ -57,7 +57,7 @@ const Register = () => {
         <div className="auth-card">
           <div className="auth-mobile-brand">
             <div className="mark"><i className="bi bi-check2-square"></i></div>
-            <strong>TaskFlow</strong>
+            <strong>Taskora</strong>
           </div>
           <h2>Create account</h2>
           <p className="auth-lead">Set up your workspace in under a minute.</p>

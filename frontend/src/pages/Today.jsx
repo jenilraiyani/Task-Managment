@@ -27,7 +27,7 @@ const Today = () => {
   };
 
   useEffect(() => {
-    document.title = 'Today · TaskFlow';
+    document.title = 'Today · Taskora';
     fetchTasks();
   }, []);
 

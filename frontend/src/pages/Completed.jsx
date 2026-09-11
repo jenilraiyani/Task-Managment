@@ -26,7 +26,7 @@ const Completed = () => {
   };
 
   useEffect(() => {
-    document.title = 'Completed · TaskFlow';
+    document.title = 'Completed · Taskora';
     fetchTasks();
   }, []);
 

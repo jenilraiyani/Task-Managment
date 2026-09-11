@@ -19,7 +19,7 @@ const BootLoader = () => (
       <div className="app-boot-mark">
         <i className="bi bi-check2-square"></i>
       </div>
-      <p className="text-muted mb-0" style={{ fontWeight: 600 }}>Loading TaskFlow...</p>
+      <p className="text-muted mb-0" style={{ fontWeight: 600 }}>Loading Taskora...</p>
     </div>
   </div>
 );

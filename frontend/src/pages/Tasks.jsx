@@ -22,7 +22,7 @@ const Tasks = () => {
   };
 
   useEffect(() => {
-    document.title = 'All Tasks · TaskFlow';
+    document.title = 'All Tasks · Taskora';
     fetchTasks();
   }, []);
 

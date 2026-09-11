@@ -35,7 +35,7 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    document.title = 'Dashboard · TaskFlow';
+    document.title = 'Dashboard · Taskora';
     fetchTasks();
   }, [fetchTasks]);
 

@@ -31,7 +31,7 @@ const Overdue = () => {
   };
 
   useEffect(() => {
-    document.title = 'Overdue · TaskFlow';
+    document.title = 'Overdue · Taskora';
     fetchTasks();
   }, []);
 

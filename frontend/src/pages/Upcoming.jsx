@@ -35,7 +35,7 @@ const Upcoming = () => {
   };
 
   useEffect(() => {
-    document.title = 'Upcoming · TaskFlow';
+    document.title = 'Upcoming · Taskora';
     fetchTasks();
   }, []);
 
