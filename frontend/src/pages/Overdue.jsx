@@ -11,10 +11,10 @@ const Overdue = () => {
     setLoading(true);
     try {
       const res = await getTasks();
-      const todayStr = new Date().setHours(0, 0, 0, 0);
+      const now = Date.now();
       setTasks(
         (res.data || []).filter(
-          (t) => t.Status !== 'Completed' && t.Deadline && new Date(t.Deadline) < todayStr
+          (t) => t.Status !== 'Completed' && t.Deadline && new Date(t.Deadline).getTime() < now
         )
       );
       try {

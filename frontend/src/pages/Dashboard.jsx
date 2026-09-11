@@ -42,9 +42,9 @@ const Dashboard = () => {
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter((t) => t.Status === 'Completed').length;
   const pendingTasks = totalTasks - completedTasks;
-  const todayStr = new Date().setHours(0, 0, 0, 0);
+  const now = Date.now();
   const overdueTasks = tasks.filter(
-    (t) => t.Status !== 'Completed' && t.Deadline && new Date(t.Deadline) < todayStr
+    (t) => t.Status !== 'Completed' && t.Deadline && new Date(t.Deadline).getTime() < now
   ).length;
   const completionPct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
   const focusTask = tasks.find((t) => t.Status !== 'Completed');
