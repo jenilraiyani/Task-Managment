@@ -136,6 +136,7 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  position: relative;
   background:
     radial-gradient(ellipse 70% 50% at 100% 0%, rgba(20, 184, 166, 0.08), transparent),
     var(--bg-color);
@@ -209,3 +210,15 @@
   .auth-mobile-brand { display: flex; }
   .auth-panel { min-height: 100vh; padding: 1.25rem; }
 }
+
+/* ---- DARK AUTH ---- */
+[data-theme='dark'] .auth-card {
+  background: rgba(26, 32, 40, 0.96);
+}
+
+[data-theme='dark'] .auth-panel {
+  background:
+    radial-gradient(ellipse 70% 50% at 100% 0%, rgba(20, 184, 166, 0.08), transparent),
+    var(--bg-color);
+}
+

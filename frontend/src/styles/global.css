@@ -500,39 +500,123 @@ option {
 }
 
 [data-theme='dark'] {
-  --bg-color: #0d1117;
-  --bg-panel: #161b22;
-  --bg-soft: #21262d;
-  --card-bg: #1c2128;
-  --card-hover: #22272e;
-  
-  --border-color: rgba(240, 246, 252, 0.1);
-  --border-strong: rgba(240, 246, 252, 0.2);
-  
-  --text-main: #c9d1d9;
-  --text-secondary: #8b949e;
-  --text-muted: #6e7681;
-  
-  --primary-color: #2ea043;
-  --primary-hover: #3fb950;
-  --primary-bright: #56d364;
-  --primary-dim: rgba(46, 160, 67, 0.15);
-  --primary-glow: rgba(46, 160, 67, 0.3);
-  --secondary-color: #3fb950;
-  
-  --warm: #d29922;
-  --warm-soft: rgba(210, 153, 34, 0.15);
-  
+  --bg-color: #0f1419;
+  --bg-panel: #171c22;
+  --bg-soft: #222830;
+  --card-bg: #1a2028;
+  --card-hover: #222a33;
+
+  --border-color: rgba(232, 238, 244, 0.1);
+  --border-strong: rgba(232, 238, 244, 0.18);
+
+  --text-main: #e8eef4;
+  --text-secondary: #9aa8b5;
+  --text-muted: #6f7f8e;
+
+  /* Keep teal brand accents (same family as light theme) */
+  --primary-color: #14b8a6;
+  --primary-hover: #2dd4bf;
+  --primary-bright: #2dd4bf;
+  --primary-dim: rgba(20, 184, 166, 0.14);
+  --primary-glow: rgba(20, 184, 166, 0.28);
+  --secondary-color: #1aa6a0;
+
+  --warm: #e07a3d;
+  --warm-soft: rgba(224, 122, 61, 0.18);
+
   --success: #3fb950;
-  --warning: #d29922;
+  --warning: #d4a017;
   --danger: #f85149;
   --info: #58a6ff;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.55);
 }
 
 [data-theme='dark'] body {
-  background-image: 
-    radial-gradient(ellipse 90% 60% at 0% -10%, rgba(63, 185, 80, 0.05), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 100% 0%, rgba(210, 153, 34, 0.05), transparent 50%),
-    radial-gradient(ellipse 50% 40% at 80% 100%, rgba(46, 160, 67, 0.03), transparent 55%),
-    linear-gradient(180deg, #161b22 0%, var(--bg-color) 40%, #0d1117 100%);
+  background-image:
+    radial-gradient(ellipse 90% 60% at 0% -10%, rgba(20, 184, 166, 0.1), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 100% 0%, rgba(224, 122, 61, 0.07), transparent 50%),
+    radial-gradient(ellipse 50% 40% at 80% 100%, rgba(15, 122, 108, 0.06), transparent 55%),
+    linear-gradient(180deg, #171c22 0%, var(--bg-color) 40%, #0c1015 100%);
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background: rgba(232, 238, 244, 0.18);
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(232, 238, 244, 0.3);
+}
+
+/* Theme toggle */
+.theme-toggle {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  color: var(--primary-color);
+  border-color: rgba(15, 122, 108, 0.35);
+  box-shadow: 0 6px 16px var(--primary-glow);
+}
+
+[data-theme='dark'] .theme-toggle:hover {
+  border-color: rgba(20, 184, 166, 0.4);
+}
+
+[data-theme='dark'] .form-control,
+[data-theme='dark'] .form-select {
+  background-color: var(--bg-panel) !important;
+  color: var(--text-main) !important;
+}
+
+[data-theme='dark'] .form-control:focus,
+[data-theme='dark'] .form-select:focus {
+  background-color: var(--card-bg) !important;
+}
+
+[data-theme='dark'] .dropdown-menu {
+  background-color: var(--card-bg) !important;
+}
+
+[data-theme='dark'] .dropdown-item:hover {
+  background: var(--bg-soft) !important;
+}
+
+[data-theme='dark'] .modal-content {
+  background-color: var(--card-bg) !important;
+}
+
+[data-theme='dark'] .modal-footer {
+  background: var(--bg-panel) !important;
+}
+
+[data-theme='dark'] option {
+  background-color: var(--card-bg);
+  color: var(--text-main);
+}
+
+[data-theme='dark'] .btn-secondary {
+  background: var(--bg-soft) !important;
+  color: var(--text-main) !important;
+}
+
+.theme-toggle-auth {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 5;
 }

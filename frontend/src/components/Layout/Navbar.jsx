@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NotificationBell from './NotificationBell';
+import ThemeToggle from './ThemeToggle';
 import { useSearch } from '../../context/SearchContext';
 
 const titles = {
@@ -20,33 +21,12 @@ const Navbar = ({ toggleSidebar }) => {
   const path = location.pathname.substring(1) || 'dashboard';
   const title = titles[path] || path.charAt(0).toUpperCase() + path.slice(1);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-  
-  // Theme toggle state
-  const [isDark, setIsDark] = useState(() => {
-    return localStorage.getItem('theme') === 'dark';
-  });
-
-  // Apply theme on mount and when changed
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDark]);
-
-  const toggleTheme = () => {
-    setIsDark(prev => !prev);
-  };
 
   const handleSearchChange = (e) => {
     setQuery(e.target.value);
   };
 
   const handleSearchFocusOrSubmit = () => {
-    // From dashboard, jump to All Tasks so global search has results
     if (location.pathname === '/dashboard' || location.pathname === '/') {
       navigate('/tasks');
     }
@@ -56,10 +36,6 @@ const Navbar = ({ toggleSidebar }) => {
     if (e.key === 'Enter') {
       handleSearchFocusOrSubmit();
     }
-  };
-
-  const closeMobileSearch = () => {
-    setMobileSearchOpen(false);
   };
 
   return (
@@ -72,7 +48,6 @@ const Navbar = ({ toggleSidebar }) => {
       </div>
 
       <div className="navbar-right">
-        {/* Desktop search - always visible */}
         <div className="search-box search-desktop">
           <i className="bi bi-search"></i>
           <input
@@ -96,7 +71,6 @@ const Navbar = ({ toggleSidebar }) => {
           )}
         </div>
 
-        {/* Mobile search icon button */}
         <button
           className="mobile-search-toggle"
           onClick={() => setMobileSearchOpen(true)}
@@ -105,34 +79,10 @@ const Navbar = ({ toggleSidebar }) => {
           <i className="bi bi-search"></i>
         </button>
 
-        {/* Theme toggle switch */}
-        <button
-          type="button"
-          className="btn btn-link nav-icon-btn me-1"
-          onClick={toggleTheme}
-          aria-label="Toggle dark theme"
-          style={{
-            background: 'var(--bg-soft)',
-            border: 'none',
-            borderRadius: '50%',
-            width: '40px',
-            height: '40px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--text-main)',
-            fontSize: '1.2rem',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease',
-          }}
-        >
-          {isDark ? <i className="bi bi-moon-stars-fill text-warning"></i> : <i className="bi bi-sun-fill text-warning"></i>}
-        </button>
-
+        <ThemeToggle />
         <NotificationBell />
       </div>
 
-      {/* Mobile search overlay */}
       {mobileSearchOpen && (
         <div className="mobile-search-overlay">
           <div className="mobile-search-bar">
@@ -150,7 +100,7 @@ const Navbar = ({ toggleSidebar }) => {
             <button
               type="button"
               className="mobile-search-close"
-              onClick={closeMobileSearch}
+              onClick={() => setMobileSearchOpen(false)}
               aria-label="Close search"
             >
               <i className="bi bi-x-lg"></i>

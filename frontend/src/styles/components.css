@@ -761,3 +761,33 @@
     flex: 1;
   }
 }
+
+/* ---- DARK THEME COMPONENT OVERRIDES ---- */
+[data-theme='dark'] .filter-chip {
+  background: rgba(26, 32, 40, 0.9);
+}
+
+[data-theme='dark'] .stat-card,
+[data-theme='dark'] .progress-card,
+[data-theme='dark'] .task-card,
+[data-theme='dark'] .add-task-form,
+[data-theme='dark'] .empty-state-card {
+  background: var(--card-bg) !important;
+}
+
+[data-theme='dark'] .mini-stat {
+  background: var(--bg-panel);
+}
+
+[data-theme='dark'] .task-action-btn,
+[data-theme='dark'] .recurrence-btn,
+[data-theme='dark'] .priority-btn {
+  background: var(--bg-panel);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .notification-item,
+[data-theme='dark'] .task-detail-modal .modal-content {
+  background: var(--card-bg);
+}
+

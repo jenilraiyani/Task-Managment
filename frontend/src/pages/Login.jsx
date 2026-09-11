@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import api from '../services/api';
+import ThemeToggle from '../components/Layout/ThemeToggle';
 import '../styles/auth.css';
 
 const Login = () => {
@@ -53,6 +54,7 @@ const Login = () => {
       </aside>
 
       <main className="auth-panel">
+        <ThemeToggle className="theme-toggle-auth" />
         <div className="auth-card">
           <div className="auth-mobile-brand">
             <div className="mark"><i className="bi bi-check2-square"></i></div>

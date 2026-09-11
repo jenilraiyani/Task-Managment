@@ -692,3 +692,51 @@
     display: block;
   }
 }
+
+/* ---- DARK THEME SURFACE OVERRIDES ---- */
+[data-theme='dark'] .sidebar {
+  background: rgba(23, 28, 34, 0.92);
+}
+
+[data-theme='dark'] .top-navbar {
+  background: var(--card-bg);
+}
+
+[data-theme='dark'] .search-box input,
+[data-theme='dark'] .notification-bell,
+[data-theme='dark'] .notification-panel,
+[data-theme='dark'] .mobile-toggle,
+[data-theme='dark'] .mobile-search-toggle,
+[data-theme='dark'] .mobile-search-bar {
+  background: var(--bg-panel);
+  color: var(--text-main);
+}
+
+[data-theme='dark'] .search-box input:focus {
+  background: var(--card-bg);
+}
+
+[data-theme='dark'] .notification-item {
+  background: var(--card-bg);
+  border-bottom-color: var(--border-color);
+}
+
+[data-theme='dark'] .notification-item:hover {
+  background: var(--bg-soft);
+}
+
+[data-theme='dark'] .notification-item.unread {
+  background: rgba(20, 184, 166, 0.08);
+}
+
+[data-theme='dark'] .notification-panel-header {
+  background: var(--bg-panel);
+}
+
+[data-theme='dark'] .badge-notification {
+  border-color: var(--card-bg);
+}
+
+[data-theme='dark'] .mobile-search-overlay {
+  background: rgba(15, 20, 25, 0.72);
+}
