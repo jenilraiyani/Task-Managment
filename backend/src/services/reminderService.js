@@ -1,6 +1,8 @@
 const Task = require('../models/Task');
 const Notification = require('../models/Notification');
 const NotificationHistory = require('../models/NotificationHistory');
+const User = require('../models/User');
+const { sendWebPush } = require('./pushService');
 
 const createNotificationOnce = async ({ userId, taskId, title, message, type, reminderType }) => {
   const alreadySent = await NotificationHistory.findOne({ taskId, reminderType });
@@ -18,6 +20,19 @@ const createNotificationOnce = async ({ userId, taskId, title, message, type, re
     taskId,
     reminderType,
   });
+
+  try {
+    const user = await User.findById(userId);
+    if (user && user.pushSubscription) {
+      await sendWebPush(user.pushSubscription, {
+        title,
+        body: message,
+        url: '/',
+      });
+    }
+  } catch (err) {
+    console.error('Failed to send web push in reminder service', err);
+  }
 
   return true;
 };

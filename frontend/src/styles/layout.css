@@ -195,7 +195,7 @@
   margin: 0;
   padding: 1.35rem 2rem;
   min-height: 72px;
-  background: #ffffff;
+  background: var(--card-bg);
   border: none;
   border-bottom: 1px solid var(--border-color);
   border-radius: 0;
@@ -245,7 +245,7 @@
   padding-right: 36px;
   border-radius: 12px;
   border: 1.5px solid var(--border-color);
-  background-color: #fff;
+  background-color: var(--card-bg);
   color: var(--text-main);
   height: 42px;
   width: min(280px, 42vw);
@@ -262,7 +262,7 @@
   outline: none;
   border-color: var(--primary-bright);
   box-shadow: 0 0 0 4px var(--primary-glow);
-  background: #fff;
+  background: var(--card-bg);
   width: min(320px, 55vw);
 }
 
@@ -292,7 +292,7 @@
 
 .notification-bell {
   position: relative;
-  background: #fff;
+  background: var(--card-bg);
   border: 1.5px solid var(--border-color);
   border-radius: 12px;
   width: 42px;
@@ -339,7 +339,7 @@
   top: calc(100% + 10px);
   right: 0;
   width: min(380px, calc(100vw - 2rem));
-  background: #fff;
+  background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 16px;
   box-shadow: var(--shadow-lg);
@@ -417,7 +417,7 @@
   padding: 0.85rem 1rem;
   border: none;
   border-bottom: 1px solid var(--border-color);
-  background: #fff;
+  background: var(--card-bg);
   text-align: left;
   cursor: pointer;
   transition: background 0.15s ease;
@@ -555,7 +555,7 @@
 /* Mobile search toggle — hidden by default on desktop */
 .mobile-search-toggle {
   display: none;
-  background: #fff;
+  background: var(--card-bg);
   border: 1.5px solid var(--border-color);
   border-radius: 12px;
   width: 42px;
@@ -582,7 +582,7 @@
   left: 0;
   right: 0;
   z-index: 950;
-  background: #ffffff;
+  background: var(--card-bg);
   padding: 0.85rem 1rem;
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 4px 20px rgba(19, 35, 56, 0.1);
@@ -665,7 +665,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #ffffff;
+    background-color: var(--card-bg);
     margin: 0;
     padding: 1.15rem 1rem;
     min-height: 64px;
@@ -691,52 +691,4 @@
   .mobile-search-overlay {
     display: block;
   }
-}
-
-/* ---- DARK THEME SURFACE OVERRIDES ---- */
-[data-theme='dark'] .sidebar {
-  background: rgba(23, 28, 34, 0.92);
-}
-
-[data-theme='dark'] .top-navbar {
-  background: var(--card-bg);
-}
-
-[data-theme='dark'] .search-box input,
-[data-theme='dark'] .notification-bell,
-[data-theme='dark'] .notification-panel,
-[data-theme='dark'] .mobile-toggle,
-[data-theme='dark'] .mobile-search-toggle,
-[data-theme='dark'] .mobile-search-bar {
-  background: var(--bg-panel);
-  color: var(--text-main);
-}
-
-[data-theme='dark'] .search-box input:focus {
-  background: var(--card-bg);
-}
-
-[data-theme='dark'] .notification-item {
-  background: var(--card-bg);
-  border-bottom-color: var(--border-color);
-}
-
-[data-theme='dark'] .notification-item:hover {
-  background: var(--bg-soft);
-}
-
-[data-theme='dark'] .notification-item.unread {
-  background: rgba(20, 184, 166, 0.08);
-}
-
-[data-theme='dark'] .notification-panel-header {
-  background: var(--bg-panel);
-}
-
-[data-theme='dark'] .badge-notification {
-  border-color: var(--card-bg);
-}
-
-[data-theme='dark'] .mobile-search-overlay {
-  background: rgba(15, 20, 25, 0.72);
 }

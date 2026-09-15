@@ -4,6 +4,8 @@ const Notification = require('../models/Notification');
 const NotificationHistory = require('../models/NotificationHistory');
 const { calculateTotalScore } = require('../services/priorityService');
 const { serializeTask } = require('../utils/serialize');
+const User = require('../models/User');
+const { sendWebPush } = require('../services/pushService');
 
 const ALLOWED_RECURRENCE = ['One-time', 'Daily', 'Custom'];
 
@@ -122,6 +124,15 @@ const createTask = async (req, res, next) => {
         message,
         type: 'Info',
       });
+      
+      const user = await User.findById(req.user.id);
+      if (user && user.pushSubscription) {
+        await sendWebPush(user.pushSubscription, {
+          title: 'New Task',
+          body: message,
+          url: '/',
+        });
+      }
     } catch (notifyErr) {
       console.error('Failed to create task notification', notifyErr);
     }

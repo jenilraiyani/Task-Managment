@@ -6,6 +6,7 @@ import { AuthContext } from '../context/AuthContext';
 import { getTasks, getCategories } from '../services/taskService';
 import LoadingState from '../components/UI/LoadingState';
 import TaskModal from '../components/Tasks/TaskModal';
+import { subscribeToPushNotifications } from '../services/pushService';
 
 ChartJS.register(ArcElement, Tooltip);
 
@@ -37,6 +38,9 @@ const Dashboard = () => {
   useEffect(() => {
     document.title = 'Dashboard · Taskora';
     fetchTasks();
+    
+    // Automatically attempt to subscribe to push notifications
+    subscribeToPushNotifications().catch(err => console.error('Push init failed', err));
   }, [fetchTasks]);
 
   const totalTasks = tasks.length;
