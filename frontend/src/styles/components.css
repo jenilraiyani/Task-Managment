@@ -760,6 +760,16 @@
   .add-task-form-actions .btn {
     flex: 1;
   }
+
+  .progress-ring-wrap {
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.25rem;
+  }
+  
+  .progress-ring-wrap .flex-grow-1 {
+    width: 100%;
+  }
 }
 
 /* ---- DARK THEME COMPONENT OVERRIDES ---- */
