@@ -763,8 +763,14 @@
 
   .progress-ring-wrap {
     flex-direction: column;
+    align-items: center;
     justify-content: center;
     gap: 1.25rem;
+    text-align: center;
+  }
+  
+  .progress-ring-wrap .chart-wrap {
+    margin: 0 auto;
   }
   
   .progress-ring-wrap .flex-grow-1 {
