@@ -7,7 +7,8 @@ const links = [
   { to: '/dashboard', icon: 'bi-grid-1x2', label: 'Dashboard' },
   { to: '/tasks', icon: 'bi-list-check', label: 'All Tasks' },
   { to: '/today', icon: 'bi-sun', label: 'Today' },
-  { to: '/upcoming', icon: 'bi-calendar3', label: 'Upcoming' },
+  { to: '/upcoming', icon: 'bi-calendar-event', label: 'Upcoming' },
+  { to: '/calendar', icon: 'bi-calendar3', label: 'Calendar' },
   { to: '/completed', icon: 'bi-check2-circle', label: 'Completed' },
   { to: '/overdue', icon: 'bi-exclamation-octagon', label: 'Overdue' },
 ];
