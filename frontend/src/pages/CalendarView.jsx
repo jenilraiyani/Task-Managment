@@ -88,11 +88,7 @@ const CalendarView = () => {
 
   return (
     <div className="calendar-page">
-      <div className="page-toolbar mb-4">
-        <div>
-          <h1 className="page-title mb-1">Calendar</h1>
-          <p className="text-muted">Drag and drop tasks to reschedule.</p>
-        </div>
+      <div className="d-flex justify-content-end mb-3">
         <button 
           className="btn btn-primary" 
           onClick={() => { setSelectedTask(null); setShowModal(true); }}

@@ -106,3 +106,24 @@
 [data-theme='dark'] .fc .fc-day-today {
   background-color: rgba(15, 122, 108, 0.15) !important;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .fc .fc-toolbar.fc-header-toolbar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .fc .fc-toolbar-title {
+    font-size: 1.15rem;
+  }
+
+  .calendar-card {
+    padding: 0.75rem;
+  }
+  
+  .fc .fc-button {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+  }
+}
