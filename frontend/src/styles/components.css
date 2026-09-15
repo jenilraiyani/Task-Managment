@@ -762,15 +762,15 @@
   }
 
   .progress-ring-wrap {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.25rem;
-    text-align: center;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1.25rem !important;
+    text-align: center !important;
   }
   
   .progress-ring-wrap .chart-wrap {
-    margin: 0 auto;
+    margin: 0 auto !important;
   }
   
   .progress-ring-wrap .flex-grow-1 {
