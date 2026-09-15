@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NotificationBell from './NotificationBell';
-import ThemeToggle from './ThemeToggle';
 import { useSearch } from '../../context/SearchContext';
 
 const titles = {
@@ -79,7 +78,6 @@ const Navbar = ({ toggleSidebar }) => {
           <i className="bi bi-search"></i>
         </button>
 
-        <ThemeToggle />
         <NotificationBell />
       </div>
 
